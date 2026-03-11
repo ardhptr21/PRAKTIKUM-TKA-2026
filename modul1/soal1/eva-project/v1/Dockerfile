@@ -1,9 +1,9 @@
 FROM nginx:latest
 
 WORKDIR /usr/share/nginx/html
-
 RUN rm -rf /usr/share/nginx/html/*
-COPY ./app/index.html .
+
+COPY index.html .
 
 EXPOSE 80
 
