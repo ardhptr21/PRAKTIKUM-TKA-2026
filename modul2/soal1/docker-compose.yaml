@@ -5,7 +5,7 @@ services:
   energy-node:
     networks:
       - fontaine
-    build: .
+    build: ./node
     depends_on:
       arkhe-core:
         condition: service_healthy
@@ -38,7 +38,7 @@ services:
     ports:
       - "7070:80"
     volumes:
-      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
     depends_on:
       - energy-node
 
