@@ -1,14 +1,9 @@
-networks:
-  fontaine:
-    driver: bridge
 services:
   energy-node:
-    networks:
-      - fontaine
     build: ./node
+    container_name: energy-node
     depends_on:
-      arkhe-core:
-        condition: service_healthy
+      - arkhe-core
     env_file:
       - .env
     deploy:
@@ -16,11 +11,12 @@ services:
         limits:
           memory: 256M
           cpus: '0.5'
-  
-  arkhe-core:
     networks:
       - fontaine
+  
+  arkhe-core:
     image: redis:alpine
+    container_name: arkhe-core
     command: redis-server --appendonly yes
     volumes:
       - redis-data:/data
@@ -30,10 +26,11 @@ services:
       timeout: 5s
       retries: 5
       start_period: 10s
-
-  monitoring-terminal:
     networks:
       - fontaine
+
+  monitoring-terminal:
+    container_name: monitoring-terminal
     image: nginx:alpine
     ports:
       - "7070:80"
@@ -41,6 +38,11 @@ services:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
     depends_on:
       - energy-node
+    networks:
+      - fontaine
 
 volumes:
   redis-data:
+
+networks:
+  fontaine:
