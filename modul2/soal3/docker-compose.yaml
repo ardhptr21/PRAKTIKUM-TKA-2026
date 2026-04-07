@@ -1,0 +1,31 @@
+services:
+  web:
+    build: ./web
+    container_name: aoi_web
+    restart: on-failure
+    environment:
+      DB_HOST: user_a07
+      DB_PORT: 3306
+      DB_NAME: identitas_a07
+      DB_USER: root
+      DB_PASS: 7KA26A51K
+    ports:
+      - 8080:5000
+    depends_on:
+      - user_a07
+    networks:
+      - aoi_network
+
+  user_a07:
+    image: mysql:latest
+    container_name: aoi_db
+    restart: on-failure
+    environment:
+      MYSQL_ROOT_PASSWORD: 7KA26A51K
+    volumes:
+      - ./data/setup.sql:/docker-entrypoint-initdb.d/setup.sql
+    networks:
+      - aoi_network
+
+networks:
+  aoi_network:
