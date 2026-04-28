@@ -1,0 +1,10 @@
+all:
+  children:
+    frontend:
+      hosts:
+        fe1:
+          ansible_host: 146.190.96.199
+    backend:
+      hosts:
+        be1:
+          ansible_host: 178.128.57.250

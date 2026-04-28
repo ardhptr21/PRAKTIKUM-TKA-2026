@@ -1,0 +1,4 @@
+- name: Initial setup
+  hosts: all
+  roles:
+    - docker

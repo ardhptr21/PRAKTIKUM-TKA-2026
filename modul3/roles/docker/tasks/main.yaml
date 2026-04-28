@@ -1,0 +1,5 @@
+- name: Setup docker
+  import_tasks: setup_docker.yaml
+  
+- name: Setup firewall
+  import_tasks: setup_firewall.yaml
