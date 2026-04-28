@@ -9,3 +9,10 @@
     - backend
   tags:
     - backend
+
+- name: Deploy frontend
+  hosts: frontend
+  roles:
+    - frontend
+  tags:
+    - frontend

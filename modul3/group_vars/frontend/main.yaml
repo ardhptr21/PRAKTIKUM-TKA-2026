@@ -1,0 +1,1 @@
+backend_uri: "http://{{ hostvars[groups['backend'][0]].ansible_host }}:{{ backend_port }}"

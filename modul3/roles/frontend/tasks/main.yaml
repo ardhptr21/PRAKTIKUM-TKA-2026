@@ -3,9 +3,9 @@
     path: "{{ app_dir }}"
     state: directory
 
-- name: Copy backend source
+- name: Copy frontend source
   copy:
-    src: "{{ playbook_dir }}/sources/backend/"
+    src: "{{ playbook_dir }}/sources/frontend/"
     dest: "{{ app_dir }}"
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
@@ -19,10 +19,10 @@
     group: "{{ ansible_user }}"
     mode: '0644'
 
-- name: Gen env
+- name: Gen config.js
   template:
-    src: .env.j2
-    dest: "{{ app_dir }}/.env"
+    src: config.js.j2
+    dest: "{{ app_dir }}/config.js"
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
     mode: '0644'
@@ -38,7 +38,7 @@
 - name: Open port
   ufw:
     rule: allow
-    port: "{{ backend_port }}"
+    port: "{{ frontend_port }}"
     proto: tcp
 
 - name: Run docker compose
@@ -48,7 +48,7 @@
 
 - name: Wait until up
   uri:
-    url: "http://localhost:{{ backend_port }}/"
+    url: "http://localhost:{{ frontend_port }}/"
     status_code: 200
     timeout: 30
   register: health_check
