@@ -2,3 +2,10 @@
   hosts: all
   roles:
     - docker
+
+- name: Deploy backend
+  hosts: backend
+  roles:
+    - backend
+  tags:
+    - backend

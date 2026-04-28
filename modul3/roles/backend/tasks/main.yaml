@@ -1,0 +1,57 @@
+- name: App directory
+  file:
+    path: "{{ app_dir }}"
+    state: directory
+
+- name: Copy backend source
+  copy:
+    src: "{{ playbook_dir }}/sources/backend/"
+    dest: "{{ app_dir }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0755'
+
+- name: Copy dockerfile
+  copy:
+    src: Dockerfile
+    dest: "{{ app_dir }}/Dockerfile"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0644'
+
+- name: Gen env
+  template:
+    src: .env.j2
+    dest: "{{ app_dir }}/.env"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0644'
+
+- name: Gen compose
+  template:
+    src: docker-compose.yaml.j2
+    dest: "{{ app_dir }}/docker-compose.yml"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0644'
+
+- name: Open port
+  ufw:
+    rule: allow
+    port: "{{ backend_port }}"
+    proto: tcp
+
+- name: Run docker compose
+  community.docker.docker_compose_v2:
+    project_src: "{{ app_dir }}"
+    state: present
+
+- name: Wait until up
+  uri:
+    url: "http://localhost:{{ backend_port }}/"
+    status_code: 200
+    timeout: 30
+  register: health_check
+  until: health_check.status == 200
+  retries: 5
+  delay: 5
