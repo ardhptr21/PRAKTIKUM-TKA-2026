@@ -2,6 +2,6 @@ global:
   scrape_interval: 5s
 
 scrape_configs:
-  - job_name: "gurren-lagann-core"
+  - job_name: 'gurren-lagann-core'
     static_configs:
-      - targets: ["node-exporter:9100"]
+      - targets: ['node-exporter:9100']
