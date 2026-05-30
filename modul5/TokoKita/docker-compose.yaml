@@ -2,16 +2,21 @@ services:
   backend1:
     build: ./backend1
     hostname: "Server 1"
-    restart: on-failure
+    restart: always
     ports:
       - "5001:5000"
+    cpus: '0.5'
+    mem_limit: 128M
 
   backend2:
     build: ./backend2
     hostname: "Server 2"
-    restart: on-failure
+    restart: always
     ports:
       - "5002:5000"
+    cpus: '0.5'
+    mem_limit: 128M
+
 
   nginx:
     build: ./nginx
@@ -22,4 +27,4 @@ services:
     depends_on:
       - backend1
       - backend2
-    restart: on-failure
+    restart: always

@@ -1,5 +1,6 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from socket import gethostname
+import hashlib
 
 app = Flask(__name__)
 
@@ -10,6 +11,7 @@ def home():
 
 
 @app.route("/products")
+@app.route("/catalogue")
 def products():
     return jsonify(
         {
@@ -19,6 +21,28 @@ def products():
                 {"id": 2, "name": "Mouse", "price": 150000},
                 {"id": 3, "name": "Keyboard", "price": 350000},
             ],
+        }
+    )
+
+
+@app.route("/checkout", methods=["POST"])
+def checkout():
+    payload = request.get_json(silent=True) or {}
+    data = (
+        f"{payload.get('user', 'guest')}:"
+        f"{payload.get('product_id', 0)}:"
+        f"{payload.get('quantity', 1)}"
+    ).encode()
+
+    ITERATIONS = 200000
+
+    for _ in range(ITERATIONS):
+        data = hashlib.sha256(data).digest()
+
+    return jsonify(
+        {
+            "message": "Checkout berhasil",
+            "server": gethostname(),
         }
     )
 

@@ -1,0 +1,5 @@
+Method,Name,Error,Occurrences,First Seen,Last Seen
+POST,/checkout,HTTPError('504 Server Error: Gateway Time-out for url: /checkout'),72,2026-05-30T16:01:09Z,2026-05-30T16:02:50Z
+GET,/catalogue,HTTPError('504 Server Error: Gateway Time-out for url: /catalogue'),26,2026-05-30T16:02:16Z,2026-05-30T16:02:23Z
+GET,/catalogue,HTTPError('502 Server Error: Bad Gateway for url: /catalogue'),4976,2026-05-30T16:01:29Z,2026-05-30T16:02:58Z
+POST,/checkout,HTTPError('502 Server Error: Bad Gateway for url: /checkout'),1208,2026-05-30T16:01:32Z,2026-05-30T16:02:57Z
