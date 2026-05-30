@@ -14,7 +14,7 @@ services:
       - "5002:5000"
 
   nginx:
-    image: nginx:latest
+    build: ./nginx
     ports:
       - "80:80"
     volumes:
